@@ -9,7 +9,7 @@ ip = "http://192.168.1.100:8080/photoaf.jpg"
 
 def callback(data):
     global ip
-    urllib.urlretrive(ip,  "photo.jpg")
+    urllib.urlretrieve(ip,  "photo.jpg")
     
 def listener():
     rospy.init_node('listener', anonymous=True)
