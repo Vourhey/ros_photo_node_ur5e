@@ -6,7 +6,7 @@ from std_msgs.msg import Empty
 def talker():
     pub = rospy.Publisher("/photo", Empty, queue_size=10)
     rospy.init_node('talker', anonymous=True)
-    rate = rospy.Rate(1)
+    rate = rospy.Rate(0.1)
     while not rospy.is_shutdown():
 	rospy.loginfo("Sending...")
 	pub.publish(Empty())
