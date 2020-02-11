@@ -13,20 +13,29 @@ class PhotoNode:
         rospy.Subscriber("/photo", Empty, self.callback)
 
         self.ip = rospy.get_param("endpoint", "http://192.168.1.100:8080/")
-        self.count = 0
-	self.now = datetime.now()
+	pwd = os.getcwd() + "/result"
+	self.path = rospy.get_param("newpath", pwd)
+	try:
+    	    os.mkdir(self.path)
+	except OSError:
+    	    print ("The directory %s already exists" % self.path)
+	else:
+            print ("Successfully created the directory %s " % self.path)
+
+        #self.count = 0
 
     def callback(self, data):
-	current_date = self.now.strftime("%Y-%m-%d-%H-%M-%S")
+	self.now = datetime.now()
+	timestamp = self.now.strftime("%Y-%m-%d-%H-%M-%S")
 
         rospy.loginfo("Downloading image...")
 
-        filename = "photo-" + str(self.count) + "--"+ current_date + ".jpg"
-	directory_view_count = "result_view/photo_view_" + str(self.count % 3)
+        filename = "photo-" + "-"+ timestamp + ".jpg" # + str(self.count) + "--"+ timestamp + ".jpg"
+	#directory_view_count = "result_view" + str(self.count % 3)
 	
-	full_filename = os.path.join(directory_view_count, filename)
+	full_filename = os.path.join(self.path, filename)
         urllib.urlretrieve(self.ip + "photoaf.jpg",  full_filename)
-        self.count += 1
+        #self.count += 1
 
         rospy.loginfo("Finished")
 
