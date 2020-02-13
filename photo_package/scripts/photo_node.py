@@ -12,9 +12,9 @@ class PhotoNode:
         rospy.init_node("photo_node", anonymous=True)
         rospy.Subscriber("/photo", Empty, self.callback)
 
-        self.ip = rospy.get_param("endpoint", "http://192.168.1.100:8080/")
+        self.ip = rospy.get_param("~endpoint", "http://192.168.1.100:8080/")
 	pwd = os.getcwd() + "/result"
-	self.path = rospy.get_param("newpath", pwd)
+	self.path = rospy.get_param("~newpath", pwd)
 	try:
     	    os.mkdir(self.path)
 	except OSError:
@@ -32,7 +32,7 @@ class PhotoNode:
 
         filename = "photo-" + "-"+ timestamp + ".jpg" # + str(self.count) + "--"+ timestamp + ".jpg"
 	#directory_view_count = "result_view" + str(self.count % 3)
-	
+
 	full_filename = os.path.join(self.path, filename)
         urllib.urlretrieve(self.ip + "photoaf.jpg",  full_filename)
         #self.count += 1
